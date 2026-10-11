@@ -84,6 +84,7 @@ export const DESCUBRIR = {
     { icono: 'telefono', titulo: 'Interceptor', texto: 'Presentar la oportunidad', pantalla: '01' },
     { icono: 'inversiones', titulo: 'Inversiones', texto: 'Facilitar el descubrimiento', pantalla: '03' },
     { icono: 'billetera', titulo: 'Plazo fijo', texto: 'Invitar a simular', pantalla: '04' },
+    { icono: 'ganancia', titulo: 'Tenencia', texto: 'Invitar a seguir invirtiendo', pantalla: '13' },
   ],
 };
 
