@@ -95,6 +95,7 @@ export const SIMULAR = {
     { titulo: 'Modalidad', pantalla: '05' },
     { titulo: 'Monto', pantalla: '06' },
     { titulo: 'Plazo', pantalla: '08' },
+    { titulo: 'Elegir cuenta', pantalla: '10' },
     { titulo: 'Revisión', pantalla: '11' },
     { titulo: 'Resultado', pantalla: '12' },
   ],
