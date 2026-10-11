@@ -24,13 +24,11 @@ function Intro() {
 
 function Desafio() {
   return (
-    <div className="slide">
+    <div className="slide slide-desafio">
       <Encabezado etiqueta={SLIDES[1].etiqueta} titulo={DESAFIO.titulo} bajada={DESAFIO.bajada} />
       <div className="grilla-3">
         {DESAFIO.objetivos.map((o, i) => (
-          <Card key={o.titulo} icono={o.icono} titulo={o.titulo} texto={o.texto} i={3 + i}>
-            {o.pasos && <Pasos pasos={o.pasos} desde={4} chico />}
-          </Card>
+          <Card key={o.titulo} icono={o.icono} titulo={o.titulo} texto={o.texto} i={3 + i} />
         ))}
       </div>
     </div>
@@ -64,7 +62,7 @@ function Usuario() {
       <Encabezado etiqueta="Protopersona" titulo={SLIDES[3].etiqueta} />
       <motion.article className="pres-card persona" {...fade(3)}>
         <div className="persona-cabecera">
-          <span className="persona-avatar"><Icon name="persona" size={48} /></span>
+          <img className="persona-avatar" src={`${import.meta.env.BASE_URL}${PERSONA.foto}`} width="88" height="88" alt="" />
           <div>
             <h2 className="pres-subtitulo">{PERSONA.nombre}</h2>
             <p className="pres-cuerpo c-secundario">{PERSONA.rasgos}</p>
@@ -72,8 +70,12 @@ function Usuario() {
         </div>
         <p className="persona-cita">{PERSONA.cita}</p>
         <div className="persona-grilla">
-          <div><h3 className="pres-etiqueta-neutra">Objetivos</h3><p className="pres-cuerpo">{PERSONA.objetivos}</p></div>
-          <div><h3 className="pres-etiqueta-neutra">Necesidades</h3><p className="pres-cuerpo">{PERSONA.necesidades}</p></div>
+          {[['Objetivos', PERSONA.objetivos], ['Necesidades', PERSONA.necesidades]].map(([t, items]) => (
+            <div key={t}>
+              <h3 className="pres-etiqueta-neutra">{t}</h3>
+              <ul className="pres-cuerpo persona-lista">{items.map((x) => <li key={x}>{x}</li>)}</ul>
+            </div>
+          ))}
         </div>
         <div className="persona-jtbd">
           <h3 className="pres-etiqueta">Job to be done</h3>
@@ -101,11 +103,7 @@ function Problema() {
 }
 
 function Oportunidad() {
-  return (
-    <Destacado n={5} etiqueta={OPORTUNIDAD.etiqueta} titulo={OPORTUNIDAD.titulo}>
-      <motion.div className="bloque-flujo grande" {...fade(3)}><Pasos pasos={OPORTUNIDAD.pasos} desde={3} /></motion.div>
-    </Destacado>
-  );
+  return <Destacado n={5} etiqueta={OPORTUNIDAD.etiqueta} titulo={OPORTUNIDAD.titulo} />;
 }
 
 function Hipotesis() {

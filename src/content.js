@@ -28,7 +28,7 @@ export const DESAFIO = {
   objetivos: [
     { icono: 'negocio', titulo: 'Objetivo de negocio', texto: 'Incrementar el interés y la intención de contratación de plazos fijos desde los canales digitales.' },
     { icono: 'usuario', titulo: 'Objetivo de usuario', texto: 'Explorar alternativas para hacer rendir sus ahorros, comprender sus beneficios y condiciones, y decidir sin sentirse obligado a contratar desde el inicio.' },
-    { icono: 'diseno', titulo: 'Objetivo de diseño', texto: 'Diseñar una experiencia digital que conecte tres momentos, diferenciando la exploración de una operación financiera real.', pasos: ['Descubrir', 'Evaluar', 'Contratar'] },
+    { icono: 'diseno', titulo: 'Objetivo de diseño', texto: 'Diseñar una experiencia digital que conecte tres momentos, diferenciando la exploración de una operación financiera real.' },
   ],
 };
 
@@ -37,9 +37,9 @@ export const PARTIDA = {
   flujo: ['Producto', 'Monto', 'Vencimiento', 'Revisión', 'Confirmación'],
   subtitulo: 'Tres oportunidades identificadas',
   oportunidades: [
-    'El recorrido comienza desde el producto.',
-    'El beneficio se descubre durante el recorrido.',
-    'La exploración no aparece como una experiencia independiente.',
+    'Conectar el producto con una motivación cotidiana antes de presentar la operación financiera.',
+    'Permitir que pueda probar montos y plazos con el objetivo explícito de conocer el resultado, sin comenzar una contratación.',
+    'Diferenciar el momento de conocer el producto del momento de contratarlo.',
   ],
 };
 
@@ -47,8 +47,9 @@ export const PERSONA = {
   nombre: 'Martín, 32 años',
   rasgos: 'Protopersona hipotética · Ingresos estables · Interés por ahorrar',
   cita: '«Quiero hacer rendir mis ahorros, pero primero necesito entender si me conviene».',
-  objetivos: 'Hacer rendir sus ahorros y tomar decisiones informadas.',
-  necesidades: 'Comprender ganancias, plazos y disponibilidad del dinero.',
+  foto: 'martin.webp',
+  objetivos: ['Hacer rendir sus ahorros.', 'Aprovechar ingresos extra.', 'Ahorrar para proyectos personales.', 'Tomar decisiones financieras informadas.'],
+  necesidades: ['Entender cuánto podría ganar.', 'Saber cuándo recuperaría su dinero.', 'Comprender las condiciones.', 'Poder explorar sin iniciar una contratación.'],
   jtbd: 'Cuando tengo ahorros disponibles, quiero conocer cuánto podría ganar y cuándo recuperaría mi dinero, para decidir con confianza si me conviene contratar un plazo fijo.',
 };
 
@@ -61,7 +62,6 @@ export const PROBLEMA = {
 export const OPORTUNIDAD = {
   etiqueta: 'How might we',
   titulo: '¿Cómo podríamos ayudar a las personas a descubrir y comprender los beneficios de un plazo fijo sin que sientan que deben contratarlo desde el inicio?',
-  pasos: ['Descubrir', 'Evaluar', 'Contratar'],
 };
 
 export const HIPOTESIS = [
