@@ -18,7 +18,7 @@ export const SLIDES = [
 ];
 
 export const INTRO = {
-  titulo: '¿Y si invertir empezara por explorar?',
+  titulo: '¿Qué pasa cuando una persona tiene ahorros y quiere hacerlos rendir, pero todavía no sabe si quiere invertir?',
   bajada: 'Una experiencia para comprender cuánto podrían rendir los ahorros antes de tomar una decisión.',
 };
 

@@ -70,7 +70,7 @@ button.paso:hover { background: var(--prim-blue-100); }
 .pres-etiqueta.claro { color: rgba(255, 255, 255, 0.8); }
 .pres-titulo.claro { color: var(--color-text-inverse); }
 .intro-contenido .pres-display { max-width: 1240px; }
-.intro-contenido .pres-subtitulo-regular { max-width: 1100px; color: rgba(255, 255, 255, 0.88); }
+.intro-contenido .pres-subtitulo-regular { max-width: none; color: rgba(255, 255, 255, 0.88); }
 .intro-ayuda { color: rgba(255, 255, 255, 0.64); margin-top: 24px; }
 .pres-card.en-marca { box-shadow: var(--elevation-2); }
 .pres-card.en-marca .pres-subtitulo { color: var(--color-text-primary); }
