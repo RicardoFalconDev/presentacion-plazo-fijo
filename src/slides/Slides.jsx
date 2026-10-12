@@ -15,8 +15,7 @@ function Intro() {
       <div className="intro-contenido">
         <motion.p className="pres-etiqueta claro" {...fade(0)}>{SLIDES[0].etiqueta}</motion.p>
         <motion.h1 className="pres-display" {...fade(1)}>{INTRO.titulo}</motion.h1>
-        <motion.p className="pres-subtitulo-regular" {...fade(2)}>{INTRO.bajada}</motion.p>
-        <motion.p className="pres-cuerpo intro-ayuda" {...fade(3)}>Usá las flechas del teclado, tocá los costados o deslizá para avanzar.</motion.p>
+        <motion.p className="pres-cuerpo intro-ayuda" {...fade(2)}>Usá las flechas del teclado, tocá los costados o deslizá para avanzar.</motion.p>
       </div>
     </div>
   );
