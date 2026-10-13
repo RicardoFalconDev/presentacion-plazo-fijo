@@ -8,6 +8,11 @@ const W = 1920, H = 1080;
 const TOTAL = SLIDE_COMPONENTS.length;
 const desdeHash = () => Math.min(TOTAL, Math.max(1, parseInt(location.hash.slice(1), 10) || 1)) - 1;
 
+// Vista de presentador: las ventanas se sincronizan por este canal (BroadcastChannel).
+const CANAL = 'control_presentacion';
+// Modo miniatura (?miniatura=1): la usa la vista de presentador; sin pie ni controles, solo sigue al canal.
+const MINIATURA = new URLSearchParams(location.search).has('miniatura');
+
 // Escala el escenario 1920 × 1080 para que entre completo en la ventana.
 function useEscala() {
   const calc = () => Math.min(innerWidth / W, innerHeight / H);
@@ -36,9 +41,40 @@ export default function Deck() {
   }, []);
 
   useEffect(() => { const h = `#${i + 1}`; if (location.hash !== h) history.replaceState(null, '', h); }, [i]);
+
+  // Sincronización con la vista de presentador y con otras ventanas de la presentación.
+  // Mensajes que escucha: siguiente · anterior · ir { indice } · pedir_estado · estado { indice, origen }.
+  // Mensajes que emite: pedir_estado al abrirse y estado { indice, total, origen } cada vez que cambia la slide.
+  const canal = useRef(null);
+  const origen = useRef(Math.random().toString(36).slice(2));
+  const actual = useRef(i);
+  actual.current = i;
+  useEffect(() => {
+    if (!('BroadcastChannel' in window)) return undefined;
+    const c = new BroadcastChannel(CANAL);
+    canal.current = c;
+    c.onmessage = ({ data: m }) => {
+      if (!m || m.origen === origen.current) return;
+      if (m.tipo === 'siguiente') ir(actual.current + 1);
+      else if (m.tipo === 'anterior') ir(actual.current - 1);
+      else if (m.tipo === 'ir' || m.tipo === 'estado') { if (Number.isInteger(m.indice) && m.indice !== actual.current) ir(m.indice); }
+      else if (m.tipo === 'pedir_estado' && !MINIATURA) c.postMessage({ tipo: 'estado', indice: actual.current, total: TOTAL, origen: origen.current });
+    };
+    // Al abrirse, pide el estado para sumarse a la slide en curso (en vez de imponer la suya).
+    c.postMessage({ tipo: 'pedir_estado', origen: origen.current });
+    return () => { c.close(); canal.current = null; };
+  }, [ir]);
+  // Avisa los cambios de slide (no el estado inicial). La miniatura solo escucha.
+  const emitido = useRef(i);
+  useEffect(() => {
+    if (emitido.current === i) return;
+    emitido.current = i;
+    if (!MINIATURA) canal.current?.postMessage({ tipo: 'estado', indice: i, total: TOTAL, origen: origen.current });
+  }, [i]);
   useEffect(() => { const on = () => ir(desdeHash()); addEventListener('hashchange', on); return () => removeEventListener('hashchange', on); }, [ir]);
 
   useEffect(() => {
+    if (MINIATURA) return undefined;
     const on = (e) => {
       if (e.target.closest?.('input, textarea')) return;
       if (e.key === 'Escape') { setIndice((v) => !v); return; }
@@ -54,6 +90,7 @@ export default function Deck() {
 
   // Clic en los costados del escenario (fuera de elementos interactivos) y swipe en pantallas táctiles.
   const onClick = (e) => {
+    if (MINIATURA) return;
     if (e.target.closest('button, a, iframe, .telefono, .entradas, .pasos')) return;
     const r = e.currentTarget.getBoundingClientRect();
     ir((e.clientX - r.left) / r.width > 0.35 ? i + 1 : i - 1);
@@ -69,7 +106,7 @@ export default function Deck() {
   const Actual = SLIDE_COMPONENTS[i];
   return (
     <MotionConfig reducedMotion="user">
-      <main className="deck" aria-roledescription="presentación">
+      <main className={`deck ${MINIATURA ? 'miniatura' : ''}`} aria-roledescription="presentación">
         <div className="escenario" style={{ width: W, height: H, transform: `translate(-50%, -50%) scale(${k})` }}
           onClick={onClick} onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
           <AnimatePresence mode="popLayout" initial={false} custom={dir}>
@@ -79,13 +116,13 @@ export default function Deck() {
             </motion.section>
           </AnimatePresence>
 
-          <footer className={`pie ${i === 0 || i === TOTAL - 1 ? 'sobre-marca' : ''}`}>
+          {!MINIATURA && <footer className={`pie ${i === 0 || i === TOTAL - 1 ? 'sobre-marca' : ''}`}>
             <span className="pie-titulo">Plazo fijo · Caso de estudio</span>
             <div className="progreso" aria-hidden="true"><motion.span animate={{ width: `${((i + 1) / TOTAL) * 100}%` }} transition={{ duration: 0.3 }} /></div>
             <button className="pie-boton" onClick={() => ir(i - 1)} disabled={i === 0} aria-label="Slide anterior"><Icon name="flecha" size={28} /></button>
             <button className="pie-numero" onClick={() => setIndice(true)} aria-label="Abrir índice">{String(i + 1).padStart(2, '0')} / {TOTAL}</button>
             <button className="pie-boton" onClick={() => ir(i + 1)} disabled={i === TOTAL - 1} aria-label="Slide siguiente"><Icon name="flecha" size={28} /></button>
-          </footer>
+          </footer>}
 
           <AnimatePresence>
             {indice && (

@@ -1,0 +1,82 @@
+/* Vista de presentador: solo tokens del sistema de diseño (tokens.css) y la escala de presentación. */
+:root {
+  --font-size-pres-titulo: 48px; --line-height-pres-titulo: 56px;
+  --font-size-pres-subtitulo: 32px; --line-height-pres-subtitulo: 40px;
+  --font-size-pres-cuerpo: 24px; --line-height-pres-cuerpo: 32px;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { font-family: var(--font-family-base); color: var(--color-text-primary); background: var(--color-bg-page); -webkit-font-smoothing: antialiased; }
+h1, p { margin: 0; }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: var(--border-width-focus) solid var(--color-border-focus); outline-offset: 2px; }
+.c-secundario { color: var(--color-text-secondary); }
+.c-terciario { color: var(--color-text-tertiary); }
+
+.presentador { min-height: 100%; height: 100vh; display: grid; grid-template-rows: auto 1fr; }
+
+/* Barra superior */
+.barra {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-md) var(--spacing-2xl);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: var(--color-bg-surface); box-shadow: inset 0 calc(-1 * var(--border-width-default)) 0 var(--color-border-default);
+}
+.barra-titulo { margin-right: auto; }
+.barra-grupo { display: flex; align-items: center; gap: var(--spacing-sm); }
+.barra-etiqueta { color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
+.reloj { font-variant-numeric: tabular-nums; min-width: 4.5ch; }
+
+/* Botones */
+.boton {
+  min-height: var(--size-touch-min); padding: 0 var(--spacing-md); border-radius: var(--radius-full);
+  border: var(--border-width-default) solid transparent; transition: background-color 150ms, border-color 150ms;
+}
+.boton-primario { background: var(--color-bg-brand); color: var(--color-text-inverse); }
+.boton-primario:hover:not(:disabled) { background: var(--color-bg-brand-pressed); }
+.boton-secundario { background: var(--color-bg-surface); color: var(--color-text-brand); border-color: var(--color-border-brand); }
+.boton-secundario:hover:not(:disabled) { background: var(--color-bg-brand-subtle); }
+.boton:disabled { background: var(--color-bg-disabled); color: var(--color-text-disabled); border-color: transparent; cursor: default; }
+
+/* Columnas: miniatura (izquierda) y notas (derecha, principal) */
+.columnas {
+  display: grid; grid-template-columns: minmax(320px, 2fr) 3fr; gap: var(--spacing-xl);
+  padding: var(--spacing-xl); min-height: 0;
+}
+.panel { border-radius: var(--radius-lg); min-height: 0; }
+
+.panel-vista {
+  display: flex; flex-direction: column; gap: var(--spacing-lg);
+  padding: var(--spacing-xl); background: var(--color-bg-surface-subtle);
+  box-shadow: inset 0 0 0 var(--border-width-default) var(--color-border-default);
+}
+.miniatura { aspect-ratio: 16 / 9; border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-page); box-shadow: var(--elevation-2); }
+.miniatura iframe { display: block; width: 100%; height: 100%; border: 0; pointer-events: none; }
+.slide-info { display: flex; flex-direction: column; gap: var(--spacing-3xs); }
+.navegacion { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-sm); }
+
+.panel-notas {
+  display: flex; flex-direction: column; background: var(--color-bg-surface);
+  box-shadow: inset 0 0 0 var(--border-width-default) var(--color-border-default), var(--elevation-1);
+}
+.notas-cabecera {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-xl); box-shadow: inset 0 calc(-1 * var(--border-width-default)) 0 var(--color-border-default);
+}
+.notas-tamano { display: flex; gap: var(--spacing-xs); }
+.notas { flex: 1; overflow-y: auto; padding: var(--spacing-xl) var(--spacing-2xl) var(--spacing-3xl); color: var(--color-text-primary); }
+.notas p + p { margin-top: 1em; }
+.notas strong { font-weight: var(--font-weight-bold); color: var(--color-text-brand); }
+
+/* Pasos de tamaño del texto de las notas (escala tipográfica del sistema y de presentación) */
+.notas.t-title-lg { font-weight: 400; }
+.pres-cuerpo { font-size: var(--font-size-pres-cuerpo); line-height: var(--line-height-pres-cuerpo); }
+.pres-subtitulo { font-size: var(--font-size-pres-subtitulo); line-height: var(--line-height-pres-subtitulo); }
+.pres-titulo { font-size: var(--font-size-pres-titulo); line-height: var(--line-height-pres-titulo); }
+
+/* Pantallas angostas: las columnas se apilan */
+@media (max-width: 900px) {
+  .presentador { height: auto; }
+  .columnas { grid-template-columns: 1fr; }
+  .panel-notas { min-height: 60vh; }
+}

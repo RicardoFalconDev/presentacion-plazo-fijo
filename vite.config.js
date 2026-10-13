@@ -6,4 +6,6 @@ export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/presentacion-plazo-fijo/' : '/',
   plugins: [react()],
   server: { port: 5175 },
+  // Dos páginas: la presentación (index.html) y la vista de presentador (presentador.html).
+  build: { rollupOptions: { input: { main: 'index.html', presentador: 'presentador.html' } } },
 }));
