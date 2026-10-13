@@ -28,7 +28,8 @@ h1, h2, h3, p, ol { margin: 0; }
 .c-terciario { color: var(--color-text-tertiary); }
 
 /* Escenario */
-.deck { position: fixed; inset: 0; overflow: hidden; background: var(--color-bg-page); }
+/* Fondo negro alrededor de la slide (franjas en pantallas que no son 16:9). */
+.deck { position: fixed; inset: 0; overflow: hidden; background: var(--prim-neutral-1000); }
 .escenario { position: absolute; left: 50%; top: 50%; overflow: hidden; background: var(--color-bg-page); user-select: none; }
 .slide-capa { position: absolute; inset: 0; }
 .slide { position: absolute; inset: 0; padding: 96px 128px 144px; display: flex; flex-direction: column; justify-content: center; gap: 56px; }
