@@ -84,10 +84,11 @@ export function Pasos({ pasos, desde = 0, activo, onSelect, chico }) {
 
 // Teléfono con el prototipo publicado en vivo (iframe). Cambiar `pantalla` recarga en esa pantalla.
 // `sync`: clave para espejar el prototipo entre ventanas (presentación ↔ vista de presentador).
-export function Telefono({ pantalla, titulo, sync }) {
+// `fondo`: el prototipo arranca desplazado hasta el final de la pantalla (Home → tarjeta de plazo fijo).
+export function Telefono({ pantalla, titulo, sync, fondo }) {
   const [cargando, setCargando] = useState(true);
   useEffect(() => { setCargando(true); }, [pantalla]);
-  const src = `${PROTOTIPO}?modo=nativo&pantalla=${pantalla}`;
+  const src = `${PROTOTIPO}?modo=nativo&pantalla=${pantalla}${fondo ? '&fondo=1' : ''}`;
   const srcVista = sync && !FIJA ? `${src}&sync=${sync}` : src;
   return (
     <div className="telefono" onClick={(e) => e.stopPropagation()}>

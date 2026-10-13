@@ -145,7 +145,7 @@ function Descubrir() {
         </div>
         <motion.p className="pres-cuerpo c-terciario" {...fade(7)}>Elegí un punto de entrada: el teléfono muestra el prototipo en vivo.</motion.p>
       </div>
-      <motion.div {...fade(4)}><Telefono pantalla={e.pantalla} titulo={`Prototipo: ${e.titulo}`} sync="descubrir" /></motion.div>
+      <motion.div {...fade(4)}><Telefono pantalla={e.pantalla} fondo={e.fondo} titulo={`Prototipo: ${e.titulo}`} sync="descubrir" /></motion.div>
     </div>
   );
 }

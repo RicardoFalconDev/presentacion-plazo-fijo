@@ -80,7 +80,7 @@ export const DECISIONES = [
 export const DESCUBRIR = {
   titulo: 'Una invitación a explorar desde distintos puntos de la app',
   entradas: [
-    { icono: 'home', titulo: 'Home', texto: 'Generar interés', pantalla: '02' },
+    { icono: 'home', titulo: 'Home', texto: 'Generar interés', pantalla: '02', fondo: true }, // fondo: arranca desplazada hasta la tarjeta de plazo fijo
     { icono: 'telefono', titulo: 'Interceptor', texto: 'Presentar la oportunidad', pantalla: '01' },
     { icono: 'inversiones', titulo: 'Inversiones', texto: 'Facilitar el descubrimiento', pantalla: '03' },
     { icono: 'billetera', titulo: 'Plazo fijo', texto: 'Invitar a simular', pantalla: '04' },
