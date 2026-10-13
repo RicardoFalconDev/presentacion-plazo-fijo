@@ -123,6 +123,22 @@ $('texto-menos').addEventListener('click', () => { tamano = Math.max(0, tamano -
 $('texto-mas').addEventListener('click', () => { tamano = Math.min(TAMANOS.length - 1, tamano + 1); aplicarTamano(); });
 aplicarTamano();
 
+// ——— Ancho de la columna izquierda ———
+// La vista grande queda limitada por el alto disponible; la columna se ajusta a ese ancho
+// (sin cambiar el tamaño de la vista) y el espacio que sobra pasa al guion.
+const columnas = document.querySelector('.columnas');
+function ajustarColumnas() {
+  if (matchMedia('(max-width: 900px)').matches) { columnas.style.gridTemplateColumns = ''; return; }
+  const panel = document.querySelector('.panel-vista');
+  const zona = document.querySelector('.miniatura-zona');
+  const relleno = panel.offsetWidth - panel.clientWidth + parseFloat(getComputedStyle(panel).paddingLeft) * 2;
+  const ideal = zona.clientHeight * (16 / 9) + relleno;
+  const maximo = columnas.clientWidth * 0.5;
+  columnas.style.gridTemplateColumns = `${Math.round(Math.min(ideal, maximo))}px minmax(360px, 1fr)`;
+}
+addEventListener('resize', ajustarColumnas);
+ajustarColumnas();
+
 // ——— Arranque ———
 mostrar(0);
 miniatura.src = `./?miniatura=1#1`;

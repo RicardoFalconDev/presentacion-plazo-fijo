@@ -22,7 +22,7 @@ button { font: inherit; cursor: pointer; }
   padding: var(--spacing-md) var(--spacing-xl);
   background: var(--color-bg-surface); box-shadow: inset 0 calc(-1 * var(--border-width-default)) 0 var(--color-border-default);
 }
-.barra-titulo { margin-right: auto; }
+.barra-titulo { flex-shrink: 0; }
 .barra-grupo { display: flex; align-items: center; gap: var(--spacing-sm); }
 .barra-etiqueta { color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
 .reloj { font-variant-numeric: tabular-nums; min-width: 4.5ch; }
@@ -40,30 +40,36 @@ button { font: inherit; cursor: pointer; }
 
 /* Columnas: miniatura (izquierda) y notas (derecha, principal) */
 .columnas {
-  display: grid; grid-template-columns: minmax(360px, 1fr) minmax(0, 1fr); gap: var(--spacing-xl);
+  display: grid; grid-template-columns: minmax(0, 3fr) minmax(360px, 2fr); gap: var(--spacing-xl);
   padding: var(--spacing-xl); min-height: 0;
 }
 .panel { border-radius: var(--radius-lg); min-height: 0; }
 
 .panel-vista {
-  display: flex; flex-direction: column; gap: var(--spacing-xl); overflow-y: auto;
+  display: flex; flex-direction: column; gap: var(--spacing-xl);
   padding: var(--spacing-xl); background: var(--color-bg-surface-subtle);
   box-shadow: inset 0 0 0 var(--border-width-default) var(--color-border-default);
 }
+.selector { flex: 1; min-width: 240px; max-width: 480px; margin-right: auto; }
 .selector select {
-  width: 100%; min-height: var(--size-input-height); padding: 0 var(--spacing-md);
+  width: 100%; min-height: var(--size-touch-min); padding: 0 var(--spacing-md);
   color: var(--color-text-primary); background: var(--color-bg-surface); font-family: inherit;
   border: var(--border-width-default) solid var(--color-border-strong); border-radius: var(--radius-sm); cursor: pointer;
 }
-/* Vista grande: se puede usar (en las slides 9 y 10 el prototipo se espeja en la presentación). */
-.miniatura { aspect-ratio: 16 / 9; border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-page); box-shadow: var(--elevation-2); }
+/* Vista grande: ocupa todo el espacio libre de la columna manteniendo 16:9; se puede usar
+   (en las slides 9 y 10 el prototipo se espeja en la presentación). */
+.miniatura-zona { flex: 1; min-height: 0; display: grid; place-items: center; container-type: size; }
+.miniatura {
+  width: min(100cqw, 100cqh * 16 / 9); aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md); overflow: hidden; background: var(--prim-neutral-1000); box-shadow: var(--elevation-2);
+}
 .miniatura iframe { display: block; width: 100%; height: 100%; border: 0; }
 
 /* Slide anterior y siguiente: miniaturas que funcionan como botones */
-/* Al pie de la columna y separadas de la vista grande, para no tocarlas sin querer. */
+/* Al pie de la columna, chicas y en los extremos: el foco queda en la vista grande y no se tocan sin querer. */
 .vecinas {
-  display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-xl);
-  margin-top: auto; padding-top: var(--spacing-3xl);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 200px)); justify-content: space-between; gap: var(--spacing-xl);
+  flex-shrink: 0; padding-top: var(--spacing-xl);
   box-shadow: inset 0 var(--border-width-default) 0 var(--color-border-default);
 }
 .vecina {
@@ -73,7 +79,7 @@ button { font: inherit; cursor: pointer; }
 }
 .vecina:hover:not(:disabled) { border-color: var(--color-border-brand); box-shadow: var(--elevation-2); }
 .vecina:disabled { cursor: default; color: var(--color-text-disabled); }
-.vecina-vista { aspect-ratio: 16 / 9; background: var(--color-bg-surface); }
+.vecina-vista { display: block; aspect-ratio: 16 / 9; min-height: 0; overflow: hidden; background: var(--color-bg-surface); }
 .vecina-vista iframe { display: block; width: 100%; height: 100%; border: 0; pointer-events: none; }
 .vecina-etiqueta { padding: var(--spacing-xs); background: var(--color-bg-surface-subtle); box-shadow: inset 0 var(--border-width-default) 0 var(--color-border-default); }
 .visualmente-oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -89,6 +95,9 @@ button { font: inherit; cursor: pointer; }
 .notas-tamano { display: flex; gap: var(--spacing-xs); }
 .notas { flex: 1; overflow-y: auto; padding: var(--spacing-xl) var(--spacing-2xl) var(--spacing-3xl); color: var(--color-text-primary); }
 .notas p + p { margin-top: 1em; }
+/* Espacio extra al final: permite subir el último párrafo hasta arriba del panel para leerlo cómodo. */
+.notas { container-type: size; }
+.notas::after { content: ''; display: block; height: 60vh; height: calc(100cqh - 3em); }
 .notas strong { font-weight: var(--font-weight-bold); color: var(--color-text-brand); }
 
 /* Pasos de tamaño del texto de las notas (escala tipográfica del sistema y de presentación) */
@@ -102,4 +111,6 @@ button { font: inherit; cursor: pointer; }
   .presentador { height: auto; }
   .columnas { grid-template-columns: 1fr; }
   .panel-notas { min-height: 60vh; }
+  .miniatura-zona { flex: none; height: auto; container-type: normal; }
+  .miniatura { width: 100%; }
 }

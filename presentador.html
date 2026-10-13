@@ -16,6 +16,11 @@
       <header class="barra">
         <p class="barra-titulo t-title-md">Plazo fijo · Vista de presentador</p>
 
+        <label class="selector">
+          <span class="visualmente-oculto">Ir a la diapositiva</span>
+          <select class="t-label-lg" id="selector"></select>
+        </label>
+
         <div class="barra-grupo" role="group" aria-label="Temporizador">
           <span class="barra-etiqueta t-label-md">Tiempo</span>
           <span class="reloj t-headline-sm" id="temporizador" aria-live="off">00:00</span>
@@ -32,23 +37,20 @@
       <main class="columnas">
         <!-- Izquierda: lo que ve el público (la vista grande se puede usar en las slides con prototipo). -->
         <section class="panel panel-vista" aria-label="Vista del público">
-          <label class="selector">
-            <span class="visualmente-oculto">Ir a la diapositiva</span>
-            <select class="t-title-md" id="selector"></select>
-          </label>
-
-          <div class="miniatura">
-            <iframe id="miniatura" title="Slide actual (lo que ve el público)"></iframe>
+          <div class="miniatura-zona">
+            <div class="miniatura">
+              <iframe id="miniatura" title="Slide actual (lo que ve el público)"></iframe>
+            </div>
           </div>
 
           <nav class="vecinas" aria-label="Navegación de slides">
             <button class="vecina" id="anterior" type="button">
               <span class="vecina-vista"><iframe id="vista-anterior" title="Slide anterior" tabindex="-1" aria-hidden="true"></iframe></span>
-              <span class="vecina-etiqueta t-label-lg">← Anterior</span>
+              <span class="vecina-etiqueta t-label-md">← Anterior</span>
             </button>
             <button class="vecina" id="siguiente" type="button">
               <span class="vecina-vista"><iframe id="vista-siguiente" title="Slide siguiente" tabindex="-1" aria-hidden="true"></iframe></span>
-              <span class="vecina-etiqueta t-label-lg">Siguiente →</span>
+              <span class="vecina-etiqueta t-label-md">Siguiente →</span>
             </button>
           </nav>
           <p class="visualmente-oculto" id="indicador" aria-live="polite"></p>
