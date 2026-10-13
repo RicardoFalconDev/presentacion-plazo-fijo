@@ -6,7 +6,7 @@ export const AUTOR = 'Ricardo Falcon';
 export const FIGMA = 'https://www.figma.com/design/oUvDg6bzPow3zy12FEvVl7/Plazo-fijo---Challenge?node-id=113-168&t=Eb7sMXXysy3Ep9mw-1';
 
 export const SLIDES = [
-  { id: 'intro', etiqueta: 'Caso de estudio · Plazo fijo' },
+  { id: 'intro', etiqueta: 'Challenge · Plazo fijo' },
   { id: 'desafio', etiqueta: 'El desafío y los tres objetivos' },
   { id: 'partida', etiqueta: 'El punto de partida: revisión heurística' },
   { id: 'usuario', etiqueta: 'Entender al usuario y sus necesidades' },
