@@ -37,9 +37,15 @@ function mostrar(n) {
   // Se limpia el panel y se carga solo el guion de esta slide.
   const notas = $('notas');
   notas.replaceChildren(...String(NOTAS[indice + 1] ?? '').split(/\n\s*\n/).filter(Boolean).map((t) => {
-    // Párrafo con negritas opcionales (**texto**), armado sin innerHTML.
+    // Marcas del guion: [Pausa] / [Respirar] → indicación; «*» → pregunta; «- » → idea clave.
+    let texto = t.trim();
     const p = document.createElement('p');
-    t.trim().split('**').forEach((trozo, k) => {
+    const indicacion = texto.match(/^\[(.+)\]$/);
+    if (indicacion) { p.className = 'nota-indicacion'; p.textContent = indicacion[1]; return p; }
+    if (/^\*(?!\*)/.test(texto)) { p.className = 'nota-pregunta'; texto = texto.slice(1); }
+    else if (texto.startsWith('- ')) { p.className = 'nota-clave'; texto = texto.slice(2); }
+    // Negritas opcionales (**texto**), armado sin innerHTML.
+    texto.split('**').forEach((trozo, k) => {
       if (!trozo) return;
       if (k % 2) { const b = document.createElement('strong'); b.textContent = trozo; p.append(b); } else p.append(trozo);
     });

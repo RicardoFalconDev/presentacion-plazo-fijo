@@ -98,6 +98,17 @@ button { font: inherit; cursor: pointer; }
 /* Espacio extra al final: permite subir el último párrafo hasta arriba del panel para leerlo cómodo. */
 .notas { container-type: size; }
 .notas::after { content: ''; display: block; height: 60vh; height: calc(100cqh - 3em); }
+/* Marcas del guion */
+.notas .nota-indicacion {
+  display: inline-block; padding: var(--spacing-3xs) var(--spacing-sm); border-radius: var(--radius-full);
+  background: var(--color-bg-surface-subtle); color: var(--color-text-tertiary);
+  font-size: 0.7em; line-height: 1.6; font-weight: var(--font-weight-medium); text-transform: uppercase; letter-spacing: 0.08em;
+}
+.notas .nota-pregunta { color: var(--color-text-brand); font-style: italic; }
+.notas .nota-clave {
+  padding-left: var(--spacing-md); font-weight: var(--font-weight-medium);
+  box-shadow: inset var(--border-width-focus) 0 0 var(--color-border-brand);
+}
 .notas strong { font-weight: var(--font-weight-bold); color: var(--color-text-brand); }
 
 /* Pasos de tamaño del texto de las notas (escala tipográfica del sistema y de presentación) */
