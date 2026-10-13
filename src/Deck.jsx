@@ -3,15 +3,12 @@ import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { SLIDE_COMPONENTS } from './slides/Slides.jsx';
 import { SLIDES } from './content.js';
 import { Icon } from './components/ui.jsx';
+import { CANAL, MINIATURA, FIJA } from './sync.js';
 
 const W = 1920, H = 1080;
 const TOTAL = SLIDE_COMPONENTS.length;
 const desdeHash = () => Math.min(TOTAL, Math.max(1, parseInt(location.hash.slice(1), 10) || 1)) - 1;
 
-// Vista de presentador: las ventanas se sincronizan por este canal (BroadcastChannel).
-const CANAL = 'control_presentacion';
-// Modo miniatura (?miniatura=1): la usa la vista de presentador; sin pie ni controles, solo sigue al canal.
-const MINIATURA = new URLSearchParams(location.search).has('miniatura');
 
 // Escala el escenario 1920 × 1080 para que entre completo en la ventana.
 function useEscala() {
@@ -50,7 +47,7 @@ export default function Deck() {
   const actual = useRef(i);
   actual.current = i;
   useEffect(() => {
-    if (!('BroadcastChannel' in window)) return undefined;
+    if (FIJA || !('BroadcastChannel' in window)) return undefined;
     const c = new BroadcastChannel(CANAL);
     canal.current = c;
     c.onmessage = ({ data: m }) => {
@@ -61,7 +58,7 @@ export default function Deck() {
       else if (m.tipo === 'pedir_estado' && !MINIATURA) c.postMessage({ tipo: 'estado', indice: actual.current, total: TOTAL, origen: origen.current });
     };
     // Al abrirse, pide el estado para sumarse a la slide en curso (en vez de imponer la suya).
-    c.postMessage({ tipo: 'pedir_estado', origen: origen.current });
+    c.postMessage({ tipo: 'pedir_estado', rol: MINIATURA ? 'miniatura' : 'publico', origen: origen.current });
     return () => { c.close(); canal.current = null; };
   }, [ir]);
   // Avisa los cambios de slide (no el estado inicial). La miniatura solo escucha.
@@ -106,7 +103,7 @@ export default function Deck() {
   const Actual = SLIDE_COMPONENTS[i];
   return (
     <MotionConfig reducedMotion="user">
-      <main className={`deck ${MINIATURA ? 'miniatura' : ''}`} aria-roledescription="presentación">
+      <main className={`deck ${MINIATURA ? 'miniatura' : ''} ${FIJA ? 'fija' : ''}`} aria-roledescription="presentación">
         <div className="escenario" style={{ width: W, height: H, transform: `translate(-50%, -50%) scale(${k})` }}
           onClick={onClick} onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
           <AnimatePresence mode="popLayout" initial={false} custom={dir}>

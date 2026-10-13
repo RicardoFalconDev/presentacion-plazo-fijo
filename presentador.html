@@ -30,25 +30,28 @@
       </header>
 
       <main class="columnas">
-        <!-- Izquierda: lo que ve el público. -->
+        <!-- Izquierda: lo que ve el público (la vista grande se puede usar en las slides con prototipo). -->
         <section class="panel panel-vista" aria-label="Vista del público">
+          <label class="selector">
+            <span class="visualmente-oculto">Ir a la diapositiva</span>
+            <select class="t-title-md" id="selector"></select>
+          </label>
+
           <div class="miniatura">
-            <iframe id="miniatura" title="Miniatura de la slide actual" tabindex="-1"></iframe>
-          </div>
-          <div class="slide-info">
-            <p class="t-label-md c-terciario">Ahora</p>
-            <p class="t-title-lg" id="titulo-actual"></p>
-          </div>
-          <div class="slide-info">
-            <p class="t-label-md c-terciario">Sigue</p>
-            <p class="t-body-lg c-secundario" id="titulo-siguiente"></p>
+            <iframe id="miniatura" title="Slide actual (lo que ve el público)"></iframe>
           </div>
 
-          <nav class="navegacion" aria-label="Navegación de slides">
-            <button class="boton boton-secundario t-label-lg" id="anterior" type="button">← Anterior</button>
-            <span class="t-label-lg" id="indicador" aria-live="polite">Diapositiva 1 de 12</span>
-            <button class="boton boton-primario t-label-lg" id="siguiente" type="button">Siguiente →</button>
+          <nav class="vecinas" aria-label="Navegación de slides">
+            <button class="vecina" id="anterior" type="button">
+              <span class="vecina-vista"><iframe id="vista-anterior" title="Slide anterior" tabindex="-1" aria-hidden="true"></iframe></span>
+              <span class="vecina-etiqueta t-label-lg">← Anterior</span>
+            </button>
+            <button class="vecina" id="siguiente" type="button">
+              <span class="vecina-vista"><iframe id="vista-siguiente" title="Slide siguiente" tabindex="-1" aria-hidden="true"></iframe></span>
+              <span class="vecina-etiqueta t-label-lg">Siguiente →</span>
+            </button>
           </nav>
+          <p class="visualmente-oculto" id="indicador" aria-live="polite"></p>
         </section>
 
         <!-- Derecha: guion de la slide actual. -->

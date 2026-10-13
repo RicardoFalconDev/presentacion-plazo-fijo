@@ -12,14 +12,27 @@ const $ = (id) => document.getElementById(id);
 
 let indice = 0;
 
+// Selector "Diapositiva N de 12 · título".
+$('selector').append(...SLIDES.map((sl, n) => new Option(`Diapositiva ${n + 1} de ${TOTAL} · ${sl.etiqueta}`, String(n))));
+$('selector').addEventListener('change', (e) => ir(Number(e.target.value)));
+
+function vecina(id, n) {
+  const f = $(id);
+  if (n < 0 || n >= TOTAL) { f.removeAttribute('src'); f.hidden = true; return; }
+  f.hidden = false;
+  f.src = `./?miniatura=1&fija=1#${n + 1}`;
+}
+
 // ——— Slide actual ———
 function mostrar(n) {
   indice = Math.max(0, Math.min(TOTAL - 1, n));
   $('indicador').textContent = `Diapositiva ${indice + 1} de ${TOTAL}`;
-  $('titulo-actual').textContent = SLIDES[indice].etiqueta;
-  $('titulo-siguiente').textContent = indice < TOTAL - 1 ? SLIDES[indice + 1].etiqueta : 'Fin de la presentación';
+  $('selector').value = String(indice);
   $('anterior').disabled = indice === 0;
   $('siguiente').disabled = indice === TOTAL - 1;
+  // Miniaturas fijas de la slide anterior y la siguiente (cambiar el hash no recarga la página).
+  vecina('vista-anterior', indice - 1);
+  vecina('vista-siguiente', indice + 1);
 
   // Se limpia el panel y se carga solo el guion de esta slide.
   const notas = $('notas');
@@ -48,8 +61,9 @@ if (canal) {
     if (!m || m.origen === origen) return;
     // La presentación cambió de slide (teclado, clic, swipe, índice): se sigue.
     if (m.tipo === 'estado' && Number.isInteger(m.indice) && m.indice !== indice) mostrar(m.indice);
-    // Una ventana de la presentación recién abierta pide la slide en curso.
-    if (m.tipo === 'pedir_estado') canal.postMessage({ tipo: 'estado', indice, total: TOTAL, origen });
+    // Una ventana del público recién abierta pide la slide en curso. (A la vista grande le responde el público:
+    // si le respondiera el presentador antes de sincronizarse, haría volver al público a la slide 1.)
+    if (m.tipo === 'pedir_estado' && m.rol === 'publico') canal.postMessage({ tipo: 'estado', indice, total: TOTAL, origen });
   };
 }
 
@@ -57,7 +71,7 @@ if (canal) {
 $('anterior').addEventListener('click', () => ir(indice - 1));
 $('siguiente').addEventListener('click', () => ir(indice + 1));
 addEventListener('keydown', (e) => {
-  if (e.target.closest?.('input, textarea')) return;
+  if (e.target.closest?.('input, textarea, select')) return;
   if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { if (e.key === ' ' && e.target.closest('button')) return; e.preventDefault(); ir(indice + 1); }
   if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); ir(indice - 1); }
   if (e.key === 'Home') ir(0);
@@ -65,7 +79,7 @@ addEventListener('keydown', (e) => {
 });
 
 // ——— Miniatura: la misma presentación en modo solo lectura ———
-// Al montarse pide el estado (pedir_estado) y sigue cada cambio, igual que cualquier ventana del público.
+// Vista grande: pide el estado al montarse y sigue cada cambio; en las slides 9 y 10 el prototipo se puede usar y se espeja en la presentación.
 const miniatura = $('miniatura');
 
 // ——— Temporizador (mm:ss) ———

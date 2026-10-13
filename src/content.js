@@ -1,5 +1,6 @@
 // Contenido de la presentación (tomado del documento del caso). Editar acá los textos.
-export const PROTOTIPO = 'https://ricardofalcondev.github.io/prototipo-plazo-fijo/';
+// En desarrollo se puede apuntar a un prototipo local con VITE_PROTOTIPO (por ejemplo http://localhost:5174/).
+export const PROTOTIPO = import.meta.env.VITE_PROTOTIPO || 'https://ricardofalcondev.github.io/prototipo-plazo-fijo/';
 export const FIGMA = 'https://www.figma.com/design/ojhcfF0sAvAUHdnnqKluc5/Sandbox';
 
 export const SLIDES = [

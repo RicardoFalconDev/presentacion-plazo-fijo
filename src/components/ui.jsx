@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { PROTOTIPO } from '../content.js';
+import { FIJA } from '../sync.js';
 
 // Íconos Material (mismo estilo que el sistema de diseño del prototipo).
 const PATHS = {
@@ -82,14 +83,16 @@ export function Pasos({ pasos, desde = 0, activo, onSelect, chico }) {
 }
 
 // Teléfono con el prototipo publicado en vivo (iframe). Cambiar `pantalla` recarga en esa pantalla.
-export function Telefono({ pantalla, titulo }) {
+// `sync`: clave para espejar el prototipo entre ventanas (presentación ↔ vista de presentador).
+export function Telefono({ pantalla, titulo, sync }) {
   const [cargando, setCargando] = useState(true);
   useEffect(() => { setCargando(true); }, [pantalla]);
   const src = `${PROTOTIPO}?modo=nativo&pantalla=${pantalla}`;
+  const srcVista = sync && !FIJA ? `${src}&sync=${sync}` : src;
   return (
     <div className="telefono" onClick={(e) => e.stopPropagation()}>
       <div className="telefono-pantalla">
-        <iframe key={pantalla} src={src} title={titulo || 'Prototipo del simulador de plazo fijo'} onLoad={() => setCargando(false)} />
+        <iframe key={pantalla} src={srcVista} title={titulo || 'Prototipo del simulador de plazo fijo'} onLoad={() => setCargando(false)} />
         {cargando && <div className="telefono-cargando" aria-hidden="true"><span className="spinner" /></div>}
       </div>
       <a className="telefono-abrir" href={src} target="_blank" rel="noreferrer"><Icon name="abrir" size={18} /> Abrir en otra pestaña</a>

@@ -144,5 +144,5 @@ button.paso:hover { background: var(--prim-blue-100); }
 
 @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } * { transition: none !important; } }
 
-/* Miniatura dentro de la vista de presentador: solo muestra, no recibe clics. */
-.deck.miniatura { pointer-events: none; }
+/* Miniaturas Anterior/Siguiente de la vista de presentador: solo muestran, no reciben clics. */
+.deck.fija { pointer-events: none; }

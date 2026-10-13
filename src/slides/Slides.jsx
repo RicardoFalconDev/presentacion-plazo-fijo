@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Encabezado, Card, Pasos, Telefono, Icon, fade } from '../components/ui.jsx';
 import {
   INTRO, DESAFIO, PARTIDA, PERSONA, PROBLEMA, OPORTUNIDAD, HIPOTESIS, DECISIONES,
   DESCUBRIR, SIMULAR, VALIDACION, PASOS, SLIDES, PROTOTIPO, FIGMA,
 } from '../content.js';
+import { useCompartido } from '../sync.js';
 
 // Cada slide se diseña sobre un escenario de 1920 × 1080 (se escala al viewport en Deck).
 
@@ -129,7 +129,7 @@ function Decisiones() {
 }
 
 function Descubrir() {
-  const [sel, setSel] = useState(0);
+  const [sel, setSel] = useCompartido('descubrir', 0);
   const e = DESCUBRIR.entradas[sel];
   return (
     <div className="slide slide-demo">
@@ -145,13 +145,13 @@ function Descubrir() {
         </div>
         <motion.p className="pres-cuerpo c-terciario" {...fade(7)}>Elegí un punto de entrada: el teléfono muestra el prototipo en vivo.</motion.p>
       </div>
-      <motion.div {...fade(4)}><Telefono pantalla={e.pantalla} titulo={`Prototipo: ${e.titulo}`} /></motion.div>
+      <motion.div {...fade(4)}><Telefono pantalla={e.pantalla} titulo={`Prototipo: ${e.titulo}`} sync="descubrir" /></motion.div>
     </div>
   );
 }
 
 function Simular() {
-  const [sel, setSel] = useState(0);
+  const [sel, setSel] = useCompartido('simular', 0);
   return (
     <div className="slide slide-demo">
       <div className="demo-texto">
@@ -160,7 +160,7 @@ function Simular() {
           <Pasos pasos={SIMULAR.pasos} activo={sel} onSelect={setSel} chico />
         </motion.div>
       </div>
-      <motion.div {...fade(4)}><Telefono pantalla={SIMULAR.pasos[sel].pantalla} titulo={`Prototipo: ${SIMULAR.pasos[sel].titulo}`} /></motion.div>
+      <motion.div {...fade(4)}><Telefono pantalla={SIMULAR.pasos[sel].pantalla} titulo={`Prototipo: ${SIMULAR.pasos[sel].titulo}`} sync="simular" /></motion.div>
     </div>
   );
 }

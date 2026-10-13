@@ -40,20 +40,43 @@ button { font: inherit; cursor: pointer; }
 
 /* Columnas: miniatura (izquierda) y notas (derecha, principal) */
 .columnas {
-  display: grid; grid-template-columns: minmax(320px, 2fr) 3fr; gap: var(--spacing-xl);
+  display: grid; grid-template-columns: minmax(360px, 1fr) minmax(0, 1fr); gap: var(--spacing-xl);
   padding: var(--spacing-xl); min-height: 0;
 }
 .panel { border-radius: var(--radius-lg); min-height: 0; }
 
 .panel-vista {
-  display: flex; flex-direction: column; gap: var(--spacing-lg);
+  display: flex; flex-direction: column; gap: var(--spacing-xl); overflow-y: auto;
   padding: var(--spacing-xl); background: var(--color-bg-surface-subtle);
   box-shadow: inset 0 0 0 var(--border-width-default) var(--color-border-default);
 }
+.selector select {
+  width: 100%; min-height: var(--size-input-height); padding: 0 var(--spacing-md);
+  color: var(--color-text-primary); background: var(--color-bg-surface); font-family: inherit;
+  border: var(--border-width-default) solid var(--color-border-strong); border-radius: var(--radius-sm); cursor: pointer;
+}
+/* Vista grande: se puede usar (en las slides 9 y 10 el prototipo se espeja en la presentación). */
 .miniatura { aspect-ratio: 16 / 9; border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-page); box-shadow: var(--elevation-2); }
-.miniatura iframe { display: block; width: 100%; height: 100%; border: 0; pointer-events: none; }
-.slide-info { display: flex; flex-direction: column; gap: var(--spacing-3xs); }
-.navegacion { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-sm); }
+.miniatura iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+/* Slide anterior y siguiente: miniaturas que funcionan como botones */
+/* Al pie de la columna y separadas de la vista grande, para no tocarlas sin querer. */
+.vecinas {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-xl);
+  margin-top: auto; padding-top: var(--spacing-3xl);
+  box-shadow: inset 0 var(--border-width-default) 0 var(--color-border-default);
+}
+.vecina {
+  display: flex; flex-direction: column; padding: 0; overflow: hidden; text-align: center;
+  background: var(--color-bg-surface); color: var(--color-text-primary); border-radius: var(--radius-md);
+  border: var(--border-width-strong) solid var(--color-border-default); transition: border-color 150ms, box-shadow 150ms;
+}
+.vecina:hover:not(:disabled) { border-color: var(--color-border-brand); box-shadow: var(--elevation-2); }
+.vecina:disabled { cursor: default; color: var(--color-text-disabled); }
+.vecina-vista { aspect-ratio: 16 / 9; background: var(--color-bg-surface); }
+.vecina-vista iframe { display: block; width: 100%; height: 100%; border: 0; pointer-events: none; }
+.vecina-etiqueta { padding: var(--spacing-xs); background: var(--color-bg-surface-subtle); box-shadow: inset 0 var(--border-width-default) 0 var(--color-border-default); }
+.visualmente-oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .panel-notas {
   display: flex; flex-direction: column; background: var(--color-bg-surface);
