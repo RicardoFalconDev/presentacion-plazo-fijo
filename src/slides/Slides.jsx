@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Encabezado, Card, Pasos, Telefono, Icon, fade } from '../components/ui.jsx';
 import {
   INTRO, DESAFIO, PARTIDA, PERSONA, PROBLEMA, OPORTUNIDAD, HIPOTESIS, DECISIONES,
-  DESCUBRIR, SIMULAR, VALIDACION, PASOS, SLIDES, PROTOTIPO, FIGMA,
+  DESCUBRIR, SIMULAR, VALIDACION, PASOS, SLIDES, PROTOTIPO, FIGMA, PORTFOLIO, AUTOR,
 } from '../content.js';
 import { useCompartido } from '../sync.js';
 
@@ -13,7 +13,8 @@ function Intro() {
     <div className="slide slide-marca">
       <div className="marca-circulo a" /><div className="marca-circulo b" />
       <div className="intro-contenido">
-        <motion.p className="pres-etiqueta claro" {...fade(0)}>{SLIDES[0].etiqueta}</motion.p>
+        <motion.p className="pres-etiqueta claro" {...fade(0)}>{AUTOR}</motion.p>
+        <motion.p className="pres-etiqueta claro" {...fade(1)}>{SLIDES[0].etiqueta}</motion.p>
         <motion.h1 className="pres-display" {...fade(1)}>{INTRO.titulo}</motion.h1>
       </div>
       {/* Ayuda de navegación cerca de la barra inferior, separada del título. */}
@@ -198,6 +199,7 @@ function Pasos12() {
         <motion.div className="cierre-links" {...fade(6)} onClick={(e) => e.stopPropagation()}>
           <a className="boton claro" href={PROTOTIPO} target="_blank" rel="noreferrer">Ver el prototipo <Icon name="abrir" size={20} /></a>
           <a className="boton contorno" href={FIGMA} target="_blank" rel="noreferrer">Ver el diseño en Figma <Icon name="abrir" size={20} /></a>
+          <a className="boton contorno" href={PORTFOLIO} target="_blank" rel="noreferrer">Mi portfolio <Icon name="abrir" size={20} /></a>
         </motion.div>
       </div>
     </div>
